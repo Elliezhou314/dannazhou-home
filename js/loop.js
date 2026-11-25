@@ -3,7 +3,8 @@
  * so the three never decode at the same time.
  * Reduced motion: none of them plays; each holds on its poster (frame 0 of the clip).
  * A browser that cannot play the WebM gets the animated WebP instead (or the poster, under reduced motion).
- * Without this script the <video> elements still autoplay where they can and show the poster where they cannot. */
+ * Only the first clip carries the autoplay attribute; the other two are preload="none" and are started by this script,
+ * so they download only when scrolled to. Without this script the first clip autoplays and the others show their poster. */
 (function () {
   "use strict";
   var list = document.querySelectorAll(".w-rec video");
