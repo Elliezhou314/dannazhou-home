@@ -1,16 +1,19 @@
-/* Recorded loop on demo/platform/: a silent clip that plays by itself (no controls).
- * Reduced motion: drop autoplay and hold on frame 0, which is the same picture as the poster.
+/* Recorded loops on demo/platform/: three silent clips stacked one under another (no controls).
+ * Each clip plays only while it is on screen and pauses once scrolled away (IntersectionObserver),
+ * so the three never decode at the same time.
+ * Reduced motion: none of them plays; each holds on its poster (frame 0 of the clip).
  * A browser that cannot play the WebM gets the animated WebP instead (or the poster, under reduced motion).
- * Without this script the <video> still autoplays where it can and shows the poster where it cannot. */
+ * Without this script the <video> elements still autoplay where they can and show the poster where they cannot. */
 (function () {
   "use strict";
-  var v = document.querySelector(".w-rec video");
-  if (!v) return;
+  var list = document.querySelectorAll(".w-rec video");
+  if (!list.length) return;
   var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  var src = v.querySelector("source");
+  var io = !reduce && "IntersectionObserver" in window ? new IntersectionObserver(onSeen, { threshold: [0, 0.2] }) : null;
 
-  function swap() {
+  function swap(v) {
     if (!v.parentNode) return;
+    if (io) io.unobserve(v);
     var img = document.createElement("img");
     img.src = reduce ? v.getAttribute("poster") : v.getAttribute("data-fallback");
     img.alt = v.getAttribute("aria-label") || "";
@@ -19,24 +22,46 @@
     v.parentNode.replaceChild(img, v);
   }
 
-  if (!src || !v.canPlayType(src.getAttribute("type") || "")) {
-    swap();
-    return;
+  function play(v) {
+    var p = v.play();
+    if (p && p.catch) p.catch(function () { /* autoplay refused: the poster stays */ });
   }
-  src.addEventListener("error", swap);
-  if (v.networkState === 3) {
-    swap(); // the source already failed before this deferred script ran
-    return;
+
+  function onSeen(entries) {
+    entries.forEach(function (e) {
+      var v = e.target;
+      if (e.isIntersecting && e.intersectionRatio >= 0.2) play(v);
+      else if (!v.paused) v.pause();
+    });
   }
-  if (reduce) {
+
+  function still(v) {
     // stop where it stands and go back to frame 0, which is the poster image (no reload, so no aborted request)
-    var still = function () {
-      v.pause();
-      if (v.currentTime > 0) v.currentTime = 0;
-    };
-    v.autoplay = false;
-    v.removeAttribute("autoplay");
-    v.addEventListener("play", still);
-    still();
+    v.pause();
+    if (v.currentTime > 0) v.currentTime = 0;
   }
+
+  Array.prototype.forEach.call(list, function (v) {
+    var src = v.querySelector("source");
+    if (!src || !v.canPlayType(src.getAttribute("type") || "")) {
+      swap(v);
+      return;
+    }
+    src.addEventListener("error", function () { swap(v); });
+    if (v.networkState === 3) {
+      swap(v); // the source already failed before this deferred script ran
+      return;
+    }
+    if (reduce || io) {
+      // from here on this script decides when a clip plays: on screen only, never under reduced motion
+      v.autoplay = false;
+      v.removeAttribute("autoplay");
+    }
+    if (reduce) {
+      v.addEventListener("play", function () { still(v); });
+      still(v);
+    } else if (io) {
+      io.observe(v);
+    }
+  });
 })();
