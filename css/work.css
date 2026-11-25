@@ -25,6 +25,14 @@
 .w-btns button:hover{border-bottom-color:var(--dim)}
 .w-btns button:focus-visible{outline:1px solid currentColor;outline-offset:4px}
 
+/* recorded loop (demo/platform/): a silent clip above the slideshow, same frame as the stage */
+.w-rec{margin:0 0 clamp(56px,7vw,96px)}
+.w-rec-stage{position:relative;aspect-ratio:16/9;border:1px solid var(--ink);background:#0b0d12;overflow:hidden}
+.w-rec-stage video,.w-rec-stage img{position:absolute;inset:0;display:block;width:100%;height:100%;object-fit:cover}
+.w-rec-ctl{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:18px 0 0}
+.w-rec-name{font-family:var(--song);font-size:15px;letter-spacing:.3em}
+.w-rec-note{font:300 12px var(--hei);letter-spacing:.3em;color:var(--dim)}
+
 /* per-shot notes */
 .w-list{margin-top:clamp(72px,9vw,128px);border-top:1px solid var(--hair);padding-top:clamp(56px,7vw,96px)}
 .w-item + .w-item{margin-top:clamp(64px,8vw,112px)}

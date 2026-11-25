@@ -39,6 +39,16 @@
         <p class="w-fine">画面均为演示数据，项目与单位名称为虚构。本页只供观看，不提供在线操作。</p>
       </div>
 
+      <section class="w-rec" aria-label="指挥舱录制画面">
+        <div class="w-rec-stage">
+          <video autoplay muted loop playsinline preload="metadata" poster="media/cockpit-poster.webp" data-fallback="media/cockpit-loop.webp" width="1280" height="720" aria-label="指挥舱录制画面：三维底图上的项目楼体，镜头缓慢环绕">
+            <source src="media/cockpit-loop.webm" type='video/webm; codecs="vp9"'>
+            <img src="media/cockpit-poster.webp" width="1280" height="720" alt="指挥舱录制画面：三维底图上的项目楼体，镜头缓慢环绕">
+          </video>
+        </div>
+        <div class="w-rec-ctl"><span class="w-rec-name">指挥舱</span><span class="w-rec-note">录制画面 · 非在线操作</span></div>
+      </section>
+
       <section class="w-show" aria-roledescription="轮播" aria-label="平台画面">
         <div class="w-stage">
           <img class="on" src="img/01-cockpit-1920.webp" srcset="img/01-cockpit-960.webp 960w, img/01-cockpit-1920.webp 1920w" sizes="(max-width: 1368px) calc(100vw - 48px), 1320px" width="1920" height="1080" data-name="指挥舱" alt="指挥舱：三维底图上的项目楼体，两侧是欠款、产值、回款率和选中项目的指标">
@@ -101,5 +111,6 @@
   </div>
 </div>
 <script src="../../js/player.js" defer></script>
+<script src="../../js/loop.js" defer></script>
 </body>
 </html>
