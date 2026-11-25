@@ -1,4 +1,4 @@
-/* Slideshow for the work page: cross-fade, 5 s per shot, pause on hover/focus, keyboard-operable buttons.
+/* Slideshow shared by the work pages (demo/platform/, demo/industry-map/): cross-fade, 5 s per shot, pause on hover/focus, keyboard-operable buttons.
  * Without this script the first shot simply stays on screen. Reduced motion: no autoplay until the visitor presses 继续. */
 (function () {
   "use strict";

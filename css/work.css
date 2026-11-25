@@ -1,4 +1,4 @@
-/* Work page (demo/platform/): title, slideshow, per-shot notes. Reuses tokens and frame from base.css. */
+/* Work pages (demo/platform/, demo/industry-map/): title, slideshow, per-shot notes, catalogue grid. Reuses tokens and frame from base.css. */
 
 /* header links (the main page header has plain spans) */
 .b-top a.wm{justify-self:center}
@@ -37,7 +37,17 @@
 
 /* data note */
 .w-note{text-align:center;margin-top:clamp(72px,9vw,128px);padding:28px 0;border-top:1px solid var(--hair);border-bottom:1px solid var(--hair);font-weight:300;font-size:13px;line-height:1.9;letter-spacing:.14em;color:var(--dim)}
+.w-legal{text-align:center;margin-top:22px;font-size:12.5px;line-height:1.9;letter-spacing:.12em;color:var(--dim)}
 .b-foot .cr{font-family:"Jost","Noto Sans SC",sans-serif}
+
+/* catalogue grid (demo/industry-map/): every prototype as picture + number + name + note, two columns */
+.w-all{margin-top:clamp(72px,9vw,128px)}
+.w-cells{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(64px,8vw,112px) clamp(28px,4vw,64px);margin-top:clamp(40px,5vw,64px)}
+.w-cell figure{border:1px solid var(--ink);background:#f4f3f0;aspect-ratio:16/9;overflow:hidden}
+.w-cell figure img{display:block;width:100%;height:100%;object-fit:cover}
+.w-cell small{display:block;font:400 11px var(--futura);letter-spacing:.36em;color:var(--dim);margin-top:22px}
+.w-cell h3{font-family:var(--song);font-weight:400;font-size:19.5px;letter-spacing:.12em;margin-top:10px}
+.w-cell p{font-weight:300;font-size:14px;line-height:1.95;color:#5b5954;margin-top:8px;max-width:36em}
 .w-end{height:clamp(40px,5vw,70px)}
 
 @media (max-width:860px){
@@ -45,6 +55,7 @@
   .w-name{text-align:right;padding-left:0}
   .w-btns{grid-column:1 / -1;justify-content:space-between}
   .w-cap{grid-template-columns:1fr;row-gap:12px;margin-top:20px}
+  .w-cells{grid-template-columns:1fr}
 }
 
 @media (prefers-reduced-motion:reduce){

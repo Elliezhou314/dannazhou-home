@@ -4,6 +4,7 @@
 .b-hero{display:grid;grid-template-columns:1fr 1fr;gap:6px;height:clamp(430px,66vh,660px)}
 .b-hero figure{position:relative;overflow:hidden;min-width:0}
 .art-stair{object-position:center bottom}
+.art-net{object-position:center 45%}
 .b-plate{background:var(--green);color:var(--ivory);display:flex;flex-direction:column;align-items:center;justify-content:space-between;padding:40px 24px}
 .b-plate::before{content:"";position:absolute;inset:18px;border:1px solid rgba(236,230,218,.28);pointer-events:none}
 .b-plate small{font:400 11px var(--futura);letter-spacing:.44em;text-transform:uppercase}
@@ -19,7 +20,7 @@
 /* collection */
 .b-h{display:flex;justify-content:space-between;align-items:baseline;padding-bottom:14px;border-bottom:1px solid var(--hair);font:400 11px var(--futura);letter-spacing:.4em;text-transform:uppercase;color:var(--dim)}
 .b-h b{font-family:var(--hei);font-weight:400;font-size:12.5px;letter-spacing:.5em;color:var(--ink)}
-.b-col{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(14px,2.6vw,36px);margin-top:26px}
+.b-col{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(14px,2.6vw,36px);margin-top:26px}
 .b-col figure{aspect-ratio:5/6;overflow:hidden}
 .b-col small{display:block;font:400 11px var(--futura);letter-spacing:.36em;color:var(--dim);margin-top:18px}
 .b-col h3{font-family:var(--song);font-weight:400;font-size:19px;letter-spacing:.2em;margin-top:8px}
@@ -36,9 +37,12 @@
 .b-contact .sub{display:block;width:max-content;margin:24px auto 0;padding:0 0 6px .4em;font-size:11px;letter-spacing:.4em;text-transform:uppercase;color:var(--dim);border-bottom-color:var(--hair)}
 .b-contact .sub:hover{color:var(--ink);border-bottom-color:var(--ink)}
 
+/* collection columns: four on wide screens, two in between, one on phones */
+@media (min-width:1100px){.b-col{grid-template-columns:repeat(4,minmax(0,1fr))}}
+@media (max-width:559px){.b-col{grid-template-columns:1fr}.b-col figure{aspect-ratio:4/3}}
+
 @media (max-width:860px){
   .b-top{grid-template-columns:1fr;justify-items:center;gap:14px}.b-top nav,.b-top .r{display:none}
   .b-hero{grid-template-columns:1fr;height:auto}.b-hero figure{aspect-ratio:4/5}
-  .b-col{grid-template-columns:1fr}.b-col figure{aspect-ratio:4/3}
   .b-biz{justify-content:flex-start;letter-spacing:.24em}
 }

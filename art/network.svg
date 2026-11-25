@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 360" width="300" height="360" preserveAspectRatio="xMidYMid slice" role="img" aria-label="节点与连线组成的网络插图">
+  <defs><filter id="grain" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency="1.5" numOctaves="2" seed="7"/><feColorMatrix values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 .5 -.19"/></filter></defs>
+  <rect width="300" height="360" fill="#c9cfd2"/>
+  <path d="M70 96L150 70M150 70L232 110M70 96L104 176M150 70L104 176M150 70L190 186M232 110L190 186M104 176L190 186M104 176L66 258M104 176L150 270M190 186L150 270M190 186L238 250M66 258L150 270M150 270L238 250" fill="none" stroke="#23282b" stroke-width=".9"/>
+  <g fill="#c9cfd2" stroke="#23282b" stroke-width=".9"><circle cx="70" cy="96" r="5"/><circle cx="150" cy="70" r="5"/><circle cx="232" cy="110" r="5"/><circle cx="104" cy="176" r="5"/><circle cx="66" cy="258" r="5"/><circle cx="150" cy="270" r="5"/><circle cx="238" cy="250" r="5"/></g>
+  <circle cx="190" cy="186" r="7" fill="#22332b"/>
+  <rect width="300" height="360" filter="url(#grain)" style="mix-blend-mode:multiply"/>
+</svg>
