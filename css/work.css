@@ -25,7 +25,7 @@
 .w-btns button:hover{border-bottom-color:var(--dim)}
 .w-btns button:focus-visible{outline:1px solid currentColor;outline-offset:4px}
 
-/* recorded loops (demo/platform/): silent clips stacked above the slideshow, same frame as the stage */
+/* recorded loops (demo/platform/, demo/industry-map/): silent clips stacked above the slideshow, same frame as the stage */
 .w-recs{margin:0 0 clamp(56px,7vw,96px)}
 .w-rec + .w-rec{margin-top:clamp(64px,8vw,112px)}
 .w-rec-stage{position:relative;aspect-ratio:16/9;border:1px solid var(--ink);background:#0b0d12;overflow:hidden}
