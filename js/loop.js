@@ -3,8 +3,8 @@
  * so the three never decode at the same time.
  * Reduced motion: none of them plays; each holds on its poster (frame 0 of the clip).
  * A browser that cannot play the WebM gets the animated WebP instead (or the poster, under reduced motion).
- * Only the first clip carries the autoplay attribute; the other two are preload="none" and are started by this script,
- * so they download only when scrolled to. Without this script the first clip autoplays and the others show their poster. */
+ * No clip carries the autoplay attribute and all are preload="none": this script starts each one when it is scrolled to,
+ * so nothing downloads before it is needed. Without this script every clip shows its poster. */
 (function () {
   "use strict";
   var list = document.querySelectorAll(".w-rec video");
@@ -13,13 +13,15 @@
   // Safari and every browser on iOS (all WebKit) say they can play the WebM but then hang on it without an error,
   // which leaves a black box. They get the animated WebP straight away.
   var apple = /Apple/.test(navigator.vendor || "");
+  // Phones of any make get the animated WebP too: it is a fraction of the WebM's size and looks the same at that width.
+  var small = window.matchMedia && window.matchMedia("(max-width: 700px)").matches;
   var io = !reduce && "IntersectionObserver" in window ? new IntersectionObserver(onSeen, { threshold: [0, 0.2] }) : null;
 
   function swap(v) {
     if (!v.parentNode) return;
     if (io) io.unobserve(v);
     var img = document.createElement("img");
-    img.src = reduce ? v.getAttribute("poster") : v.getAttribute("data-fallback");
+    img.src = reduce ? v.getAttribute("poster") : ((small && v.getAttribute("data-fallback-m")) || v.getAttribute("data-fallback"));
     img.alt = v.getAttribute("aria-label") || "";
     img.width = 1280;
     img.height = 720;
@@ -52,7 +54,7 @@
 
   Array.prototype.forEach.call(list, function (v) {
     var src = v.querySelector("source");
-    if (!src || apple || !v.canPlayType(src.getAttribute("type") || "")) {
+    if (!src || apple || small || !v.canPlayType(src.getAttribute("type") || "")) {
       swap(v);
       return;
     }
