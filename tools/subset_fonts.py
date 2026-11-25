@@ -18,11 +18,24 @@ from fontTools import subset
 ROOT = Path(__file__).resolve().parent.parent
 SRC = ROOT / "tools" / "_src"
 OUT = ROOT / "fonts"
-PAGES = ["index.html", "404.html"]
+SKIP_PAGES = {"google7f27b6b9ed64849b.html"}  # Search Console verification file, never rendered
+SKIP_DIRS = {"tools", ".git"}
+
+
+def pages():
+    """Every rendered page in the repo (index.html, 404.html, demo/platform/index.html, ...)."""
+    out = []
+    for p in sorted(ROOT.rglob("*.html")):
+        rel = p.relative_to(ROOT)
+        if rel.parts[0] in SKIP_DIRS or p.name in SKIP_PAGES:
+            continue
+        out.append(rel.as_posix())
+    return out
+
 
 BASIC_LATIN = {chr(c) for c in range(0x20, 0x7F)}
 # the Latin face also sets a few typographic marks that appear inside its lines
-LATIN_EXTRA = set("·—–’“”")
+LATIN_EXTRA = set("·—–’“”©")
 
 # (source file, output stem, weights, use page CJK characters?)
 JOBS = [
@@ -33,9 +46,15 @@ JOBS = [
 
 
 class TextCollector(HTMLParser):
-    """Collects characters that can be rendered: body text plus title, skipping script/style."""
+    """Collects characters that can be rendered: body text plus title, skipping script/style.
+
+    Also takes a few attributes whose text can reach the screen: alt (shown when an image fails),
+    aria-label, data-name (slide names the work-page player writes into the caption) and
+    data-alt (the alternate label of a toggle button, e.g. 暂停 / 继续).
+    """
 
     SKIP = {"script", "style"}
+    ATTRS = {"alt", "aria-label", "data-name", "data-alt"}
 
     def __init__(self):
         super().__init__()
@@ -45,6 +64,9 @@ class TextCollector(HTMLParser):
     def handle_starttag(self, tag, attrs):
         if tag in self.SKIP:
             self.depth += 1
+        for k, v in attrs:
+            if k in self.ATTRS and v:
+                self.chars.update(v)
 
     def handle_endtag(self, tag):
         if tag in self.SKIP and self.depth:
@@ -57,7 +79,7 @@ class TextCollector(HTMLParser):
 
 def page_chars():
     chars = set()
-    for name in PAGES:
+    for name in pages():
         p = TextCollector()
         p.feed((ROOT / name).read_text(encoding="utf-8"))
         chars |= p.chars
@@ -89,7 +111,7 @@ def main():
         sys.exit(f"missing sources in {SRC}: {', '.join(missing)}")
     OUT.mkdir(exist_ok=True)
     cjk = page_chars() | BASIC_LATIN
-    print(f"{len(cjk)} characters from {', '.join(PAGES)}")
+    print(f"{len(cjk)} characters from {', '.join(pages())}")
     for src, stem, weights, use_page in JOBS:
         build(src, stem, weights, cjk if use_page else BASIC_LATIN | LATIN_EXTRA)
 

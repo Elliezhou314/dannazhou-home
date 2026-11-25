@@ -4,15 +4,19 @@
 
 这个仓库只放个人主页。脑雾克星的网页版在另一个仓库 `elliezhou314.github.io` 里（地址 https://elliezhou314.github.io/naowu2/ ），两边互不影响，**不要把域名挂到那个仓库上**：那样会连带改掉脑雾克星的地址，手机上存的启动码和进度会丢。
 
-纯静态单页，没有 JavaScript、没有构建步骤；只有改了页面文字时需要重新生成一次字体（见下）。
+纯静态页面，没有构建步骤；只有改了页面文字时需要重新生成一次字体（见下）。主页没有 JavaScript；作品页 `demo/platform/` 只有一个几十行的轮播脚本 `player.js`，没有它页面照样能看（停在第一张）。
 
 ## 文件
 
 | 文件 | 作用 |
 |---|---|
-| `index.html` | 唯一页面：文字内容、SEO 标签（title / description / Open Graph / 结构化数据）都在这里 |
+| `index.html` | 主页：文字内容、SEO 标签（title / description / Open Graph / 结构化数据）都在这里 |
 | `css/base.css` | 字体 `@font-face`、设计变量、重置、页眉、页脚、通用类 |
 | `css/sections.css` | 主图区、宣言区、作品区、业务条、联系区、手机版响应式 |
+| `css/work.css` | 作品页的标题区、轮播、逐张说明、数据说明 |
+| `demo/platform/index.html` | 经营平台作品页：截图轮播＋逐张说明（见下文「经营平台作品页」） |
+| `demo/platform/player.js` | 作品页轮播：交叉淡入、每张停 5 秒、悬停或键盘聚焦时暂停、减少动态效果时不自动播放 |
+| `demo/platform/img/*.webp` | 作品页的 8 张截图，每张 1920 宽和 960 宽两种，右下角带「演示数据」水印 |
 | `art/stair.svg` | 首屏台阶与拱门插图 |
 | `art/radar.svg` / `art/columns.svg` / `art/overlap.svg` | 三件作品的插图（标讯雷达 / 经营一体化平台 / 对量工具） |
 | `fonts/*.woff2` | 自托管字体子集：Noto Serif SC 300/400、Noto Sans SC 300/400、Jost 400/500 |
@@ -24,6 +28,23 @@
 | `robots.txt` / `sitemap.xml` | 给搜索引擎的收录说明；页面有实质改动时更新 `sitemap.xml` 的 `lastmod` |
 | `404.html` | 访问不存在的地址时显示 |
 | `.nojekyll` | 让 GitHub Pages 原样发布文件 |
+
+## 经营平台作品页（`demo/platform/`）
+
+线上地址 https://www.dannazhou.com/demo/platform/ ，主页作品区「经营一体化平台」下的「查看演示」链过去。
+
+- **只有截图和说明**：页面是 8 张平台截图的轮播，加逐张的文字说明。公开页面只能看、不能操作。
+- **规矩：不要把平台前端代码放进本仓库。** 本仓库是公开仓库，平台的脚本、样式、三维模型、第三方库、数据文件一律不放；`demo/platform/` 下只允许 `index.html`、`player.js` 和 `img/` 里的截图。
+- **截图怎么重新生成**：平台的可运行副本在工作副本 `E:\Claude工作区\平台演示版构建\`（不在本仓库、不入库，`web/` 是已换成虚构数据的前端）。在那里运行：
+
+```
+cd E:\Claude工作区\平台演示版构建
+python -X utf8 tools/capture_showcase.py
+```
+
+  脚本自己在 `web/` 起本地静态服务（127.0.0.1、空闲端口，截完关掉），用无头浏览器按 1920×1080 截 8 个画面，等动画和数字滚动停下再截，加右下角水印，导出两种宽度的 WebP 直接写进本仓库的 `demo/platform/img/`。截图前会隐藏平台里的「演示版」标识和数据新鲜度提示，不改平台代码。截完要逐张看一遍，并核对页面说明文字和截图对得上。
+- **改说明文字**：直接改 `demo/platform/index.html`，改完重新生成字体（见下）。说明里只写截图里看得到的内容，不写具体数字。
+- 截图里的项目、单位、人名、法院、案号都是虚构写法（项目1、示例业主单位甲、律师甲、示例一区人民法院等），金额与日期是虚构的验证数值。
 
 ## 域名
 
@@ -37,7 +58,7 @@
 
 ## 改了页面文字之后
 
-字体只保留了页面上出现过的字，新加的字会退回系统字体。改完 `index.html` 或 `404.html` 的文字后运行：
+字体只保留了页面上出现过的字，新加的字会退回系统字体。改完任何页面（`index.html`、`404.html`、`demo/platform/index.html`）的文字后运行（脚本扫仓库里除谷歌验证文件以外的所有 html，连同图片 `alt` 等会显示出来的属性）：
 
 ```
 python -X utf8 tools/subset_fonts.py

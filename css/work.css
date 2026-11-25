@@ -1,0 +1,52 @@
+/* Work page (demo/platform/): title, slideshow, per-shot notes. Reuses tokens and frame from base.css. */
+
+/* header links (the main page header has plain spans) */
+.b-top a.wm{justify-self:center}
+
+/* title */
+.w-say{text-align:center;padding:clamp(48px,6vw,86px) 0 clamp(40px,5vw,70px)}
+.w-say small{font-family:var(--song);font-size:12px;letter-spacing:.6em;padding-left:.6em;color:var(--dim)}
+.w-say h1{font-family:var(--song);font-weight:300;font-size:clamp(30px,4vw,54px);letter-spacing:.2em;padding-left:.2em;margin-top:22px}
+.w-say p{font-family:var(--song);font-weight:300;font-size:clamp(18px,1.6vw,20px);line-height:2;letter-spacing:.08em;max-width:30em;margin:26px auto 0}
+.w-say .w-fine{font-family:var(--hei);font-size:12.5px;line-height:1.9;letter-spacing:.12em;color:var(--dim);max-width:46em;margin-top:18px}
+
+/* slideshow */
+.w-show{margin:0}
+.w-stage{position:relative;aspect-ratio:16/9;border:1px solid var(--ink);background:#0b0d12;overflow:hidden}
+.w-stage img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity 1.2s ease}
+.w-stage img.on{opacity:1}
+.w-ctl{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:16px;padding:18px 0 0}
+.w-num{font:400 12px var(--futura);letter-spacing:.3em;color:var(--dim)}
+.w-num b{font-weight:400;color:var(--ink)}
+.w-name{font-family:var(--song);font-size:15px;letter-spacing:.3em;padding-left:.3em;text-align:center}
+.w-btns{display:flex;justify-content:flex-end;gap:22px;visibility:hidden}
+.js .w-btns{visibility:visible}
+.w-btns button{appearance:none;background:none;border:0;border-bottom:1px solid var(--ink);border-radius:0;margin:0;padding:0 0 5px .4em;color:inherit;font:300 12px var(--hei);letter-spacing:.4em;cursor:pointer}
+.w-btns button:hover{border-bottom-color:var(--dim)}
+.w-btns button:focus-visible{outline:1px solid currentColor;outline-offset:4px}
+
+/* per-shot notes */
+.w-list{margin-top:clamp(72px,9vw,128px);border-top:1px solid var(--hair);padding-top:clamp(56px,7vw,96px)}
+.w-item + .w-item{margin-top:clamp(64px,8vw,112px)}
+.w-item figure{border:1px solid var(--ink);background:#0b0d12;aspect-ratio:16/9;overflow:hidden}
+.w-item figure img{display:block;width:100%;height:100%;object-fit:cover}
+.w-cap{display:grid;grid-template-columns:1fr 2fr;gap:24px clamp(24px,4vw,64px);margin-top:26px}
+.w-cap small{display:block;font:400 11px var(--futura);letter-spacing:.36em;color:var(--dim)}
+.w-cap h2{font-family:var(--song);font-weight:400;font-size:22px;letter-spacing:.14em;margin-top:10px}
+.w-cap p{font-weight:300;font-size:14.5px;line-height:2;color:#5b5954;max-width:34em}
+
+/* data note */
+.w-note{text-align:center;margin-top:clamp(72px,9vw,128px);padding:28px 0;border-top:1px solid var(--hair);border-bottom:1px solid var(--hair);font-weight:300;font-size:13px;line-height:1.9;letter-spacing:.14em;color:var(--dim)}
+.b-foot .cr{font-family:"Jost","Noto Sans SC",sans-serif}
+.w-end{height:clamp(40px,5vw,70px)}
+
+@media (max-width:860px){
+  .w-ctl{grid-template-columns:auto 1fr;row-gap:14px}
+  .w-name{text-align:right;padding-left:0}
+  .w-btns{grid-column:1 / -1;justify-content:space-between}
+  .w-cap{grid-template-columns:1fr;row-gap:12px;margin-top:20px}
+}
+
+@media (prefers-reduced-motion:reduce){
+  .w-stage img{transition:none}
+}
